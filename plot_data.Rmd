@@ -1,0 +1,123 @@
+---
+title: "Untitled"
+author: "RN7"
+date: "7/2/2019"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## old CUID
+
+```{r}
+library(dplyr)
+library(tidyr)
+library(ACDIVOCAdataGetter)
+library(ggplot2)
+library(purrr)
+library(stringr)
+library(DT)
+library(ggiraph)
+library(ggrepel)
+library(glue)
+library(forcats)
+library(RODBC)
+
+# Functions:
+
+# map CUIDs
+CUID_Actuals_DataGetter <- function(PrList) {
+  df <- PrList %>% 
+    map(~ getActualsData(howManyDays = 1, project = .x)) %>% 
+    set_names(PrList)
+}
+
+# tidy CUID
+tidy_CUID_df <- function(df) {
+  
+  df <- df %>%
+    select(-ID, -IndNum, -CorpCode, -Key, -Key_Project_Date, -TempKey, -Date, CUID_Unit = CUID) %>%
+    filter(CUID_Unit != 999) %>% # filter out 999 as disagg mess up spread()
+    spread(key = Type, value = CurrentValue) %>%
+    separate(CUID_Unit, into = c("CUID", "Unit"), by = "_", remove = FALSE) %>%
+    extract(CUID, into = c("IndCategory", "TechArea", "TargetUnit"),
+            regex = "(.{2})(.{2})(.{2})", remove = FALSE) %>%
+    mutate(Act = if_else(is.na(Act), 0, Act),
+           Tar = if_else(is.na(Tar), 0, Tar)) %>%
+    mutate(perc = Act / Tar,
+           perc = case_when(
+             is.na(perc) ~ 0,
+             perc > 1.0 ~ 1.0,
+             TRUE ~ perc)
+    )
+}
+
+
+
+# Grab Global IndTar Repository
+
+CUID_database <- sqlQuery(channel = connectToMEF(), query = 'SELECT * FROM "Indicator Global Inventory"')
+
+CUID_labels_database <- CUID_database %>% 
+  select(-contains("Tag")) %>% 
+  separate(IndCategory, into = c("IC_Code", "IC_Name"), " - ") %>% 
+  separate(TechArea, into = c("TA_Code", "TA_Name"), " - ") %>% 
+  separate(TargetUnit, into = c("TU_Code", "TU_Name"), " - ")
+
+# Example:
+# asdf <- plot_CUID(df = cuidcuid,
+#                   dollar = TRUE,
+#                   xlab_expr = "fiscal yearos", ylab_expr = "dollarooneys",
+#                   TechArea == "LO", Unit == "USD")
+
+# 1. Connect to MEF, Grab list of project names
+PrList <- getMEFData() %>% 
+  filter(Active == 1, `Data conn` == "x") %>% 
+  arrange(Project) %>% 
+  pull(Project) %>% 
+  as.character
+
+# 2. map each project to Actuals data
+CUID_actuals_fun <- safely(CUID_Actuals_DataGetter)
+
+CUID_results <- CUID_actuals_fun(PrList = PrList)
+
+CUID_actuals <- CUID_results[[1]]
+
+# 11/12/18: from 0 data (last week) to showing 12/22 projects
+
+# CUID_actuals <- PrList %>% 
+#   map(~ GetActualsData(1, project = .x)) %>% 
+#   set_names(PrList)
+
+# saveRDS(CUID_actuals, file = "CUID_actuals_data.rds")
+# CUID_actuals <- readRDS(file = "CUID_actuals_data.rds")
+
+# 3. bind rows to create one single df, then pass tidy_CUID() fun to clean + tidy up:
+cuidcuid <- CUID_actuals %>% 
+  reduce(rbind) %>%  
+  tidy_CUID_df() %>% 
+  filter(Project != "DUMMYDB")
+
+###################################################
+
+# CUID across Project
+asdf1 <- cuidcuid %>% select(CUID, Project) %>% distinct(CUID, Project) 
+
+# Count number of projects unique CUID appear in. 
+# ex. TMXXXX appears in CMSD, AMSAP, ?? etc.
+#     FCGTTS appears in AMAL, CMSD, ?? etc.
+asdf1 <- asdf1 %>% group_by(CUID) %>% count(sort = TRUE) 
+# Note: TMXXXX apears in TEN distinct projects
+
+cuidcuid <- cuidcuid %>% 
+  left_join(asdf1)
+
+# Reorder FY properly
+cuidcuid <- cuidcuid %>% 
+  mutate(FY = FY %>% fct_relevel("2013", "2014", "2015", "2016", "2017", 
+                                 "2018", "2019", "2020", "2021", "2022", "LOP"))
+```
+
