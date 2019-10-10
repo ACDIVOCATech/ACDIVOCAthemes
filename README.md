@@ -1,29 +1,36 @@
 
 <!-- README.md is generated from README.Rmd. Please edit that file -->
 
-``` r
-library(extrafont)
-library(ggplot2)
-library(dplyr)
-library(AVthemes)
-```
+<!-- badges: start -->
 
-# AVthemes
+[![Lifecycle:
+experimental](https://img.shields.io/badge/lifecycle-experimental-orange.svg)](https://www.tidyverse.org/lifecycle/#experimental)
+<!-- badges: end -->
 
-The goal of AVthemes is to …
+# ACDIVOCAthemes
+
+ACDIVOCAthemes packages contains color palette and `ggplot2` theme based
+on international development NGO ACDI/VOCA’s colors.
 
 ## Installation
 
-You can install the released version of AVthemes from
-[CRAN](https://CRAN.R-project.org) with:
+You can install the released version of AVthemes from Github with:
 
 ``` r
-install.packages("AVthemes")
+# install.packages("devtools")
+devtools::install_github("ACDIVOCATech/ACDIVOCAthemes")
 ```
 
 ## Example
 
-This is a basic example which shows you how to solve a common problem:
+``` r
+library(extrafont)
+library(ggplot2)
+library(dplyr)
+library(ACDIVOCAthemes)
+```
+
+### `theme_AV()`
 
 ``` r
 ## basic example code
@@ -37,11 +44,13 @@ mpg %>%
        subtitle = "Visualizations are key!",
        x = "$ spent per Pound of Fertilizer", y = "Number",
        caption = "Made by Data Science Team") +
-    theme_AV(ticks = TRUE)
+  theme_AV(ticks = TRUE)
 #> `stat_bin()` using `bins = 30`. Pick better value with `binwidth`.
 ```
 
 <img src="man/figures/README-example-1.png" width="100%" />
+
+### `theme_AVgray`
 
 ``` r
 mpg %>% 
@@ -54,8 +63,8 @@ mpg %>%
        subtitle = "Visualizations are key!",
        x = "$ spent per Pound of Fertilizer", y = "Number",
        caption = "Made by Data Science Team") +
-    theme_AVgray(ticks = TRUE)
+  theme_AVgray(ticks = TRUE)
 #> `stat_bin()` using `bins = 30`. Pick better value with `binwidth`.
 ```
 
-<img src="man/figures/README-unnamed-chunk-2-1.png" width="100%" />
+<img src="man/figures/README-unnamed-chunk-3-1.png" width="100%" />

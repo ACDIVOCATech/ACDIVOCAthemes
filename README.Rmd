@@ -13,30 +13,33 @@ knitr::opts_chunk$set(
 )
 ```
 
-```{r, message=FALSE,warning=FALSE}
-library(extrafont)
-library(ggplot2)
-library(dplyr)
-library(AVthemes)
+<!-- badges: start -->
+[![Lifecycle: experimental](https://img.shields.io/badge/lifecycle-experimental-orange.svg)](https://www.tidyverse.org/lifecycle/#experimental)
+<!-- badges: end -->
 
-```
+# ACDIVOCAthemes
 
-
-# AVthemes
-
-The goal of AVthemes is to ...
+ACDIVOCAthemes packages contains color palette and `ggplot2` theme based on international development NGO ACDI/VOCA's colors.
 
 ## Installation
 
-You can install the released version of AVthemes from [CRAN](https://CRAN.R-project.org) with:
+You can install the released version of AVthemes from Github with:
 
-``` r
-install.packages("AVthemes")
+```{r, eval=FALSE}
+# install.packages("devtools")
+devtools::install_github("ACDIVOCATech/ACDIVOCAthemes")
 ```
 
 ## Example
 
-This is a basic example which shows you how to solve a common problem:
+```{r, message=FALSE,warning=FALSE}
+library(extrafont)
+library(ggplot2)
+library(dplyr)
+library(ACDIVOCAthemes)
+```
+
+### `theme_AV()`
 
 ```{r example}
 ## basic example code
@@ -50,9 +53,10 @@ mpg %>%
        subtitle = "Visualizations are key!",
        x = "$ spent per Pound of Fertilizer", y = "Number",
        caption = "Made by Data Science Team") +
-    theme_AV(ticks = TRUE)
+  theme_AV(ticks = TRUE)
 ```
 
+### `theme_AVgray`
 
 ```{r}
 mpg %>% 
@@ -65,6 +69,6 @@ mpg %>%
        subtitle = "Visualizations are key!",
        x = "$ spent per Pound of Fertilizer", y = "Number",
        caption = "Made by Data Science Team") +
-    theme_AVgray(ticks = TRUE)
+  theme_AVgray(ticks = TRUE)
 ```
 
