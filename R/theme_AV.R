@@ -1,8 +1,5 @@
 #' @title theme_AV
 #' @description ACDI/VOCA plotting theme
-#' @param text.font PARAM_DESCRIPTION, Default: "Calibri"
-#' @param title.font PARAM_DESCRIPTION, Default: "Calibri"
-#' @param legend.font PARAM_DESCRIPTION, Default: "Calibri"
 #' @param title.size PARAM_DESCRIPTION, Default: 18
 #' @param text.size PARAM_DESCRIPTION, Default: 14
 #' @param subtitle.size PARAM_DESCRIPTION, Default: 12
@@ -26,9 +23,6 @@
 #' @importFrom grid unit
 
 theme_AV <- function(
-  text.font = "Calibri",
-  title.font = "Calibri",
-  legend.font = "Calibri",
   title.size = 18,
   text.size = 14,
   subtitle.size = 12,
@@ -50,20 +44,20 @@ theme_AV <- function(
   ## base on theme_minimal
   themeAV <- theme_minimal() +
     ## main theme
-    theme(text = ggplot2::element_text(family = text.font, size = text.size, color = text.color),
-          plot.title = element_text(family = title.font, face = "bold", size = title.size, color = title.color),
-          plot.subtitle = element_text(family = title.font, size = subtitle.size, color = subtitle.color),
+    theme(text = ggplot2::element_text(size = text.size, color = text.color),
+          plot.title = element_text(face = "bold", size = title.size, color = title.color),
+          plot.subtitle = element_text( size = subtitle.size, color = subtitle.color),
           # background/panel options
           plot.background = element_rect(color = NA, fill = "#009BA7"),
           panel.background = element_rect(color = NA),
           # panel options
           panel.grid = element_line(color = "#505159"),
           # axis options
-          axis.text = element_text(family = text.font, size = axis.text.size, color = axis.text.color),
-          axis.title = element_text(family = title.font, size = axis.title.size, color = axis.title.color),
+          axis.text = element_text(size = axis.text.size, color = axis.text.color),
+          axis.title = element_text(size = axis.title.size, color = axis.title.color),
           # legend options
-          legend.text = element_text(family = legend.font, size = legend.text.size, color = legend.text.color),
-          legend.title = element_text(family = legend.font, size = legend.title.size, color = legend.title.color),
+          legend.text = element_text(size = legend.text.size, color = legend.text.color),
+          legend.title = element_text(size = legend.title.size, color = legend.title.color),
           legend.position = legend.position,
           legend.key = element_rect(colour = "#505159", linetype = "solid"),
           legend.background = element_rect(color = "#505159", fill = "#505159", linetype = "solid")  ## #64719E  #8a2be2
@@ -88,9 +82,6 @@ theme_AV <- function(
 
 #' @title FUNCTION_TITLE
 #' @description FUNCTION_DESCRIPTION
-#' @param text.font PARAM_DESCRIPTION, Default: "Calibri"
-#' @param title.font PARAM_DESCRIPTION, Default: "Calibri"
-#' @param legend.font PARAM_DESCRIPTION, Default: "Calibri"
 #' @param title.size PARAM_DESCRIPTION, Default: 18
 #' @param text.size PARAM_DESCRIPTION, Default: 14
 #' @param subtitle.size PARAM_DESCRIPTION, Default: 12
@@ -124,9 +115,6 @@ theme_AV <- function(
 #' @importFrom grid unit
 
 theme_AVgray <- function(
-  text.font = "Calibri",
-  title.font = "Calibri",
-  legend.font = "Calibri",
   title.size = 18,
   text.size = 14,
   subtitle.size = 12,
@@ -148,20 +136,20 @@ theme_AVgray <- function(
   ## base on theme_minimal
   theme_AV_gray <- theme_gray() +
     ## main theme
-    theme(text = ggplot2::element_text(family = text.font, size = text.size, color = text.color),
-          plot.title = element_text(family = title.font, face = "bold", size = title.size, color = title.color),
-          plot.subtitle = element_text(family = title.font, size = subtitle.size, color = subtitle.color),
+    theme(text = ggplot2::element_text(size = text.size, color = text.color),
+          plot.title = element_text(face = "bold", size = title.size, color = title.color),
+          plot.subtitle = element_text(size = subtitle.size, color = subtitle.color),
           # background/panel options
           plot.background = element_rect(color = NA, fill = "#505159"),
           panel.background = element_rect(color = NA),
           # panel options
           panel.grid = element_line(color = "black"),
           # axis options
-          axis.text = element_text(family = text.font, size = axis.text.size, color = axis.text.color),
-          axis.title = element_text(family = title.font, size = axis.title.size, color = axis.title.color),
+          axis.text = element_text(size = axis.text.size, color = axis.text.color),
+          axis.title = element_text(size = axis.title.size, color = axis.title.color),
           # legend options
-          legend.text = element_text(family = legend.font, size = legend.text.size, color = legend.text.color),
-          legend.title = element_text(family = legend.font, size = legend.title.size, color = legend.title.color),
+          legend.text = element_text(size = legend.text.size, color = legend.text.color),
+          legend.title = element_text(size = legend.title.size, color = legend.title.color),
           legend.position = legend.position,
           legend.key = element_rect(colour = "black", linetype = "solid"),
           legend.background = element_rect(color = "#505159", fill = "#505159", linetype = "solid")  ## #64719E  #8a2be2

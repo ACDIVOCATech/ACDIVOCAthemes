@@ -5,9 +5,6 @@
 \title{theme_AV}
 \usage{
 theme_AV(
-  text.font = "Calibri",
-  title.font = "Calibri",
-  legend.font = "Calibri",
   title.size = 18,
   text.size = 14,
   subtitle.size = 12,
@@ -27,12 +24,6 @@ theme_AV(
 )
 }
 \arguments{
-\item{text.font}{PARAM_DESCRIPTION, Default: "Calibri"}
-
-\item{title.font}{PARAM_DESCRIPTION, Default: "Calibri"}
-
-\item{legend.font}{PARAM_DESCRIPTION, Default: "Calibri"}
-
 \item{title.size}{PARAM_DESCRIPTION, Default: 18}
 
 \item{text.size}{PARAM_DESCRIPTION, Default: 14}
